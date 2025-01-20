@@ -1,18 +1,19 @@
+import avatar from './src/assets/photos/avatar.jpeg'
 export const YukinaConfig = {
-  Title: "Yukina Template",
-  SubTitle: "Yukina Template Demo Site", // doesn't work when UseHitokotoSubtitle is true
-  BrandTitle: "Yukina",
-  UseHitokotoSubtitle: true,
-  Description: "Demo Site",
+  Title: "John Nissen-Hooper",
+  SubTitle: "Lead Engineer, making accessibility more accessible", // doesn't work when UseHitokotoSubtitle is true
+  BrandTitle: "John",
+  UseHitokotoSubtitle: false,
+  Description: "Lead Engineer",
   IconfontURL: "//at.alicdn.com/t/c/font_4507154_ptdxadr7249.css",
-  Avatar: "https://s2.loli.net/2024/12/06/zNY2H3mcrwhpi8f.webp",
+  Avatar: avatar,
 
-  Username: "WhitePaper 白芷",
+  Username: "John",
   Sign: "Ad Astra Per Aspera.",
   SocialLinks: [
     {
       icon: "ic-github",
-      link: "https://github.com/WhitePaper233",
+      link: "https://github.com/jnhooper",
     },
     {
       icon: "ic-bilibili",

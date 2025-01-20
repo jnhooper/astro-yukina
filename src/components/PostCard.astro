@@ -1,4 +1,5 @@
 ---
+import { Picture } from 'astro:assets';
 import { t } from "i18next";
 // @ts-ignore
 import { localizePath } from "astro-i18next";
@@ -25,7 +26,7 @@ const { remarkPluginFrontmatter } = await props.entry.render();
 
 function formatDate(date: Date): string {
   return date
-    .toLocaleDateString("zh-CN", {
+    .toLocaleDateString("en-US", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
@@ -177,5 +178,15 @@ function formatDate(date: Date): string {
 
   .cover {
     @apply h-full w-full select-none rounded-r-3xl object-cover dark:brightness-90;
+    /*filter: sepia(1) hue-rotate(207deg);*/
   }
+  /*.cover-container:after{*/
+  /*  content: '';*/
+  /*  position: absolute;*/
+  /*  top: 0;*/
+  /*  left: 0;*/
+  /*  width: 100%;*/
+  /*  height: 100%;*/
+  /*  background: rgba(157, 145, 231, 0.25);*/
+  /*}*/
 </style>

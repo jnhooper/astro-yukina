@@ -10,6 +10,7 @@ const postCollection = defineCollection({
     image: z.string().optional(),
     tags: z.array(z.string()).optional(),
     category: z.string().optional(),
+    url:z.string().url().optional()
   },
 });
 export const collections = {

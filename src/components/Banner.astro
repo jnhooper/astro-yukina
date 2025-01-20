@@ -1,8 +1,18 @@
 ---
+import { Picture } from 'astro:assets';
 import { readFileSync } from "node:fs";
 import { parse } from "yaml";
 import { YukinaConfig } from "../../yukina.config";
-import { GetCoverURLForUnspecifiedEntry } from "../utils/cover";
+import {
+  GetCoverURLForUnspecifiedEntry,
+} from "../utils/cover";
+import elmoImg from '../assets/photos/elmo.jpg'
+import catBox from '../assets/photos/catBox.jpg'
+import ferryFun from '../assets/photos/ferryFun.jpg'
+import christmasJump from '../assets/photos/christmasJump.jpg'
+import portoHill from '../assets/photos/portoHill.jpg'
+import glasses from '../assets/photos/glasses.jpg'
+import science from '../assets/photos/science.jpg'
 
 // 定义组件的属性
 export interface Props {
@@ -21,26 +31,74 @@ const hasHeaderImg = headerImg !== undefined || slug !== undefined;
 let carouselImgsList = [] as string[];
 if (!hasHeaderImg) {
   console.log("No header image specified, loading carousel images...");
-  const carouselImgs = readFileSync("data/carousel_imgs.yaml", "utf-8");
-  carouselImgsList = parse(carouselImgs) as string[];
+  //const carouselImgs = readFileSync("data/carousel_imgs.yaml", "utf-8");
+  //carouselImgsList = parse(carouselImgs) as string[];
+  carouselImgsList = [
+    {
+      src: ferryFun,
+      objectPosition: 'center 34%',
+      alt: 'John and family enjoying the ferry to SF'
+    },
+    {
+      src: elmoImg,
+      objectPosition: 'center center',
+      alt: 'John and daughter playing with puppets'
+    },
+    {
+      src: glasses,
+      objectPosition: 'center center',
+      alt: 'John and family making silly faces with sunglasses'
+    },
+    {
+      src: science,
+      objectPosition: 'center center',
+      alt: 'John and daughter with lab goggles on'
+    },
+    //{
+    //  src: catBox,
+    //  objectPosition: 'left center'
+    //},
+    //{
+    //  src: christmasJump,
+    //  objectPosition: 'center top'
+    //},
+    //{
+    //  src: portoHill,
+    //  objectPosition: 'center center'
+    //},
+  ]
+
 }
 const carouselAnimationTime = `${carouselImgsList.length * 6}s`;
 ---
 
 <div id="banner" class="banner onload-animation-fade-in">
-  <div class="transition-main banner-inner h-full w-full">
+  <div class="transition-main banner-inner h-full w-full"> 
     {
       !hasHeaderImg && (
         <div class="carousel">
-          <ul id="carousel_imgs">
+          <div class="carousel_imgs">
+        <div style={{
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          backgroundColor: 'rgb(0, 0, 0)',
+          opacity: 0.529297,
+        }}/>
             {carouselImgsList.map((img, index) => (
-              <li
+              <Picture
+                alt='elmo'
+                formats={['avif', 'webp']}
+                src={img.src}
                 class="item lozad"
-                style={{ animationDelay: `${index * 6}s` }}
-                data-background-image={img}
+                style={{
+                  animationDelay: `${index * 6}s`,
+                  objectPosition: img.objectPosition,
+                  filter: 'brightness(0.592)'
+                }}
               />
             ))}
-          </ul>
+          </div>
         </div>
       )
     }
@@ -54,7 +112,7 @@ const carouselAnimationTime = `${carouselImgsList.length * 6}s`;
           />
         </div>
       )
-    }
+      }
     {
       (
         <div class="relative h-[95%] w-full">
@@ -127,7 +185,7 @@ const carouselAnimationTime = `${carouselImgsList.length * 6}s`;
 
 <script>
   const styleElement = document.createElement("style");
-  const carouselImgs = document.getElementById("carousel_imgs");
+  const carouselImgs = document.getElementsByClassName("carousel_imgs")[0];
   const carouselImgsCount = carouselImgs?.children.length ?? 0;
 
   const carouselAnimation = `
@@ -166,6 +224,12 @@ const carouselAnimationTime = `${carouselImgsList.length * 6}s`;
     /* animation: 300ms banner-onload-animation;
     animation-fill-mode: forwards */
   }
+  @media(min-width:1024px){
+    .banner {
+      --banner-height: 55vh
+    }
+
+  }
 
   .carousel {
     @apply absolute left-0 top-0 -z-10 block h-[var(--banner-height)] w-full overflow-hidden bg-white;
@@ -184,6 +248,7 @@ const carouselAnimationTime = `${carouselImgsList.length * 6}s`;
       0s;
     backface-visibility: hidden;
     transform-style: preserve-3d;
+    object-fit: cover;
   }
 
   .fixed {
@@ -218,6 +283,7 @@ const carouselAnimationTime = `${carouselImgsList.length * 6}s`;
     font-size: var(--subtitle-font-size);
     font-family: var(--subtitle-font);
   }
+
 
   .waves {
     @apply absolute bottom-0 h-[10vh] max-h-[9.375rem] min-h-[3.125rem] w-full;
