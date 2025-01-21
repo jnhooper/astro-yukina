@@ -3,7 +3,7 @@ import { SlugToRealSlug } from "./hash";
 
 export interface Archive {
   title: string;
-  slug: string;
+  id: string;
   date: Date;
   tags: string[];
 }
@@ -57,9 +57,9 @@ export async function GetArchives() {
     }
     archives.get(year)!.push({
       title: post.data.title,
-      slug: `/posts/${SlugToRealSlug(post.slug)}`,
+      id: `/posts/${SlugToRealSlug(post.id)}`,
       date: date,
-      tags: post.data.tags,
+      tags: post.data.tags || [],
     });
   }
 

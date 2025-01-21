@@ -29,7 +29,7 @@ const { page } = Astro.props;
             style={`animation-delay: calc(var(--onload-animation-delay) + ${index + 1} * var(--onload-animation-interval));`}
           >
             <PostCard
-              slug={entry.slug}
+              slug={entry.id}
               title={entry.data.title}
               published={entry.data.published}
               category={entry.data.category}

@@ -5,7 +5,7 @@ published: 2018-08-18
 tags: [graphql, docker, js, python, dev, learning]
 category: tutorial
 url: https://medium.com/@john.nissenhooper/baby-steps-with-graphql-django-and-docker-b1319608c41
-image: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fd-render-abstract-fantasy-background-wavy-tangled-golden-snakes-shiny-metallic-dragon-scales-texture-unique-wallpaper-d-246045728.jpg&f=1&nofb=1&ipt=78c9872037b540288df674b61c74df3e33a12c6a719f1e0b7796345c70d87556&ipo=images
+image: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ytimg.com%2Fvi%2FfUfk3eJF5uY%2Fmaxresdefault.jpg&f=1&nofb=1&ipt=f0cdcb1cb83c31633d2bba27d3a0ff91cc9de24526458187fb16996c9b814710&ipo=images
 ---
 
 Baby steps with GraphQL, Django and Docker

@@ -34,7 +34,7 @@ const { archiveMap, title, subTitle, headerImg, hashedSlug } = Astro.props;
             {archiveMap.get(year)?.map((entry) => (
               <li>
                 <ArchivePost
-                  slug={entry.slug}
+                  slug={entry.id}
                   title={entry.title}
                   pubilished={entry.date}
                   tags={entry.tags}

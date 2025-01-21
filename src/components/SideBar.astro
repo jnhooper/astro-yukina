@@ -37,7 +37,9 @@ const categories = await GetCategories();
           <div class="mt-3 flex flex-row justify-center">
             <div class="flex w-[184px] flex-wrap justify-center gap-2">
               {YukinaConfig.SocialLinks.map((item) => (
-                <SocialIcon icon={item.icon} link={item.link} />
+              <SocialIcon
+                icon={item.icon}
+                link={item.link} />
               ))}
             </div>
           </div>

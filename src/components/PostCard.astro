@@ -1,4 +1,5 @@
 ---
+import { render } from "astro:content";
 import { Picture } from 'astro:assets';
 import { t } from "i18next";
 // @ts-ignore
@@ -22,7 +23,7 @@ export interface Props {
 const props = Astro.props;
 const entryID = SlugToRealSlug(props.slug);
 const contentUrl = `/posts/${entryID}`;
-const { remarkPluginFrontmatter } = await props.entry.render();
+const { remarkPluginFrontmatter } = await render(props.entry);
 
 function formatDate(date: Date): string {
   return date

@@ -1,5 +1,5 @@
 ---
-import { getEntry } from "astro:content";
+import { getEntry, render } from "astro:content";
 import { changeLanguage } from "i18next";
 import Main from "../layouts/MainLayout.astro";
 import Markdown from "../components/Markdown.astro";
@@ -8,7 +8,7 @@ import CopyRight from "../components/misc/CopyRight.astro";
 changeLanguage("zh");
 
 const aboutPost = await getEntry("spec", "about");
-const { Content } = await aboutPost.render();
+const { Content } = await render(aboutPost);
 interface Props {
     title?: string;
     subTitle?: string;

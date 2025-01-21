@@ -13,6 +13,9 @@ import { remarkTOC } from "./src/plugins/remark-toc.mjs";
 
 // https://astro.build/config
 export default defineConfig({
+  experimental: {
+     svg: true,
+   },
   output: "static",
   integrations: [
     pagefind(),

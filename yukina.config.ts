@@ -1,4 +1,7 @@
 import avatar from './src/assets/photos/avatar.jpeg'
+import GithubIcon from './src/assets/svg/githubLogo.svg'
+import GmailIcon from './src/assets/svg/gmailLogo.svg'
+import LinkedinIcon from './src/assets/svg/linkedinLogo.svg'
 export const YukinaConfig = {
   Title: "John Nissen-Hooper",
   SubTitle: "Lead Engineer, making accessibility more accessible", // doesn't work when UseHitokotoSubtitle is true
@@ -12,16 +15,16 @@ export const YukinaConfig = {
   Sign: "Ad Astra Per Aspera.",
   SocialLinks: [
     {
-      icon: "ic-github",
+      icon: LinkedinIcon,
+      link: 'https://www.linkedin.com/in/nissenhooper/',
+    },
+    {
+      icon: GmailIcon,
+      link: 'mailto:john.nissenhooper@gmail.com',
+    },
+    {
+      icon: GithubIcon,
       link: "https://github.com/jnhooper",
-    },
-    {
-      icon: "ic-bilibili",
-      link: "https://space.bilibili.com/22433608",
-    },
-    {
-      icon: "ic-ncm",
-      link: "https://music.163.com/#/user/home?id=125291648",
     },
   ],
 

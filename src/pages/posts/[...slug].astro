@@ -1,6 +1,6 @@
 ---
 import { changeLanguage } from "i18next";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import { SlugToRealSlug } from "../../utils/hash";
 import PostLayout from "../../layouts/PostLayout.astro";
 
@@ -14,13 +14,14 @@ changeLanguage("zh");
 export async function getStaticPaths() {
     const postEntries = await getCollection("posts");
     return postEntries.map((entry) => ({
-        params: { slug: SlugToRealSlug(entry.slug) },
+        params: { id: SlugToRealSlug(entry.id) },
+        //params: { id: entry.id },
         props: { entry },
     }));
 }
 const { entry } = Astro.props;
 // const { Content, remarkPluginFrontmatter } = await entry.render();
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 ---
 
 <!-- <Fragment set:html={tocHTMLString} /> -->
