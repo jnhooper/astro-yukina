@@ -30,14 +30,14 @@ export async function GetSortedPosts() {
     return dateA > dateB ? -1 : 1;
   });
 
-  for (let i = 1; i < sorted.length; i++) {
-    sorted[i].data.nextSlug = sorted[i - 1].slug;
-    sorted[i].data.nextTitle = sorted[i - 1].data.title;
-  }
-  for (let i = 0; i < sorted.length - 1; i++) {
-    sorted[i].data.prevSlug = sorted[i + 1].slug;
-    sorted[i].data.prevTitle = sorted[i + 1].data.title;
-  }
+  //for (let i = 1; i < sorted.length; i++) {
+  //  sorted[i].data.nextSlug = sorted[i - 1].id;
+  //  sorted[i].data.nextTitle = sorted[i - 1].data.title;
+  //}
+  //for (let i = 0; i < sorted.length - 1; i++) {
+  //  sorted[i].data.prevSlug = sorted[i + 1].id;
+  //  sorted[i].data.prevTitle = sorted[i + 1].data.title;
+  //}
 
   return sorted;
 }
@@ -80,22 +80,24 @@ export async function GetTags() {
 
   const tags = new Map<string, Tag>();
   allBlogPosts.forEach((post) => {
-    post.data.tags.forEach((tag: string) => {
-      const tagSlug = SlugToRealSlug(tag);
-      if (!tags.has(tagSlug)) {
-        tags.set(tagSlug, {
-          name: tag,
-          slug: `/tags/${tagSlug}`,
-          posts: [],
+    if(post.data.tags){
+      post.data.tags.forEach((tag: string) => {
+        const tagSlug = SlugToRealSlug(tag);
+        if (!tags.has(tagSlug)) {
+          tags.set(tagSlug, {
+            name: tag,
+            slug: `/tags/${tagSlug}`,
+            posts: [],
+          });
+        }
+        tags.get(tagSlug)!.posts.push({
+          title: post.data.title,
+          id: `/posts/${SlugToRealSlug(post.id)}`,
+          date: new Date(post.data.published),
+          tags: post.data.tags|| [],
         });
-      }
-      tags.get(tagSlug)!.posts.push({
-        title: post.data.title,
-        slug: `/posts/${SlugToRealSlug(post.slug)}`,
-        date: new Date(post.data.published),
-        tags: post.data.tags,
       });
-    });
+    }
   });
 
   return tags;
@@ -120,9 +122,9 @@ export async function GetCategories() {
     }
     categories.get(categorySlug)!.posts.push({
       title: post.data.title,
-      slug: `/posts/${SlugToRealSlug(post.slug)}`,
+      id: `/posts/${SlugToRealSlug(post.id)}`,
       date: new Date(post.data.published),
-      tags: post.data.tags,
+      tags: post.data.tags||[],
     });
   });
 

@@ -15,7 +15,10 @@ const postCollection = defineCollection({
     description: z.string().optional(),
     image: z.string().optional(),
     tags: z.array(z.string()).optional(),
-    category: z.string().optional(),
+    /**
+     * category for the post
+     **/
+    category: z.string(),
     url:z.string().url().optional()
     //title: z.string(),
     //description: z.string(),

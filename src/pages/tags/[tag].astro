@@ -3,7 +3,7 @@ import { changeLanguage } from "i18next";
 import PostArchiveLayout from "../../layouts/PostArchiveLayout.astro";
 import { GetTags, type Archive } from "../../utils/content";
 
-changeLanguage("zh");
+changeLanguage("en");
 
 export async function getStaticPaths() {
     const tags = await GetTags();

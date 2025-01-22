@@ -9,7 +9,7 @@ import rehypeSlug from "rehype-slug";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
-import { remarkTOC } from "./src/plugins/remark-toc.mjs";
+//import { remarkTOC } from "./src/plugins/remark-toc.mjs";
 
 // https://astro.build/config
 export default defineConfig({

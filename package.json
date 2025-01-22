@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "astro-i18next generate && astro dev",
     "start": "astro dev",
-    "build": "astro-i18next generate && astro check && astro build",
+    "build": "astro check && astro build",
+    "build:i18n": "astro-i18next generate && astro check && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

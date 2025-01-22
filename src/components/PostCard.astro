@@ -112,8 +112,9 @@ function formatDate(date: Date): string {
   <div class="cover-container">
     <a href={localizePath(contentUrl)} class="cover-wrapper">
       <i class="right-icon iconfont ic-right"></i>
-      <img
+      <Picture
         class="cover lozad"
+        inferSize
         src={props.image ?? GetCoverURLForUnspecifiedEntry(entryID)}
         alt="post cover"
       />

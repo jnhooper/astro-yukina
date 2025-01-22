@@ -5,7 +5,7 @@ import Main from "../layouts/MainLayout.astro";
 import Markdown from "../components/Markdown.astro";
 import CopyRight from "../components/misc/CopyRight.astro";
 
-changeLanguage("zh");
+changeLanguage("en");
 
 const aboutPost = await getEntry("spec", "about");
 const { Content } = await render(aboutPost);

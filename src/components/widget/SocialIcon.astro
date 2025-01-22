@@ -1,7 +1,7 @@
 ---
 export interface Props {
-  icon: string;
-  link: string;
+  icon: (_props: any)=>any 
+  link: string
 }
 const { icon: Icon, link } = Astro.props;
 ---
