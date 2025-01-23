@@ -74,6 +74,7 @@ if (!hasHeaderImg) {
 // let carouselImgsList = YukinaConfig.banners;
 
 const carouselAnimationTime = `${carouselImgsList.length * 6}s`;
+//<!--class=" left-1/2 top-1/2 w-4/5 -translate-x-1/2 -translate-y-1/2 lg:w-3/4"-->
 ---
 
 <div id="banner" class="banner onload-animation-fade-in">
@@ -120,9 +121,7 @@ const carouselAnimationTime = `${carouselImgsList.length * 6}s`;
       )
     }
     <div class="relative h-[95%] w-full">
-      <div
-        class="absolute left-1/2 top-1/2 w-4/5 -translate-x-1/2 -translate-y-1/2 lg:w-3/4"
-      >
+      <div class="titleWrapper">
         <div class="flex flex-col">
           <h1
             class:list={[hasTitle ? "title-normal" : "title-index"]}
@@ -219,17 +218,14 @@ const carouselAnimationTime = `${carouselImgsList.length * 6}s`;
 
 <style define:vars={{ carouselAnimationTime }}>
   .banner {
-    @apply relative h-[calc(var(--banner-height)*3/4)] opacity-100 lg:h-[var(--banner-height)];
-  }
-  @media (min-width: 1024px) {
-    .banner {
-      --banner-height: 55vh;
-    }
+    @apply relative opacity-100;
+    overflow: hidden;
   }
 
   .carousel {
     @apply absolute left-0 top-0 -z-10 block h-[calc(var(--banner-height)*3/4)] w-full overflow-hidden bg-white lg:h-[var(--banner-height)];
     animation-fill-mode: forwards;
+    height: 100%;
   }
 
   .carousel::before {
@@ -278,8 +274,8 @@ const carouselAnimationTime = `${carouselImgsList.length * 6}s`;
   }
 
   .waves {
-    @apply absolute -bottom-[1px] h-[10vh] max-h-[9.375rem] min-h-[3.125rem] w-full;
-    @apply md:h-[15vh];
+    @apply -bottom-[1px] h-[10vh] max-h-[9.375rem] min-h-[3.125rem] w-full;
+    @apply md:h-[var(--wave-height)];
   }
 
   .waves > .parallax use {
@@ -304,6 +300,22 @@ const carouselAnimationTime = `${carouselImgsList.length * 6}s`;
     100% {
       opacity: 1;
       height: var(--banner-height);
+    }
+  }
+  .titleWrapper {
+    margin-top: var(--nav-height);
+    display: flex;
+    place-content: center;
+  }
+  .titleWrapper > * {
+    width: 80%;
+    display: flex;
+    place-content: center;
+  }
+
+  @media (min-width: 1024px) {
+    .titleWrapper > * {
+      min-height: 55vh;
     }
   }
 </style>
