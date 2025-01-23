@@ -40,7 +40,8 @@ export interface Category {
  */
 export async function GetSortedPosts() {
   const allBlogPosts = await getCollection("posts", ({ data }) => {
-    return import.meta.env.PROD ? data.draft !== true : true;
+    //return import.meta.env.PROD ? data.draft !== true : true;
+    return true
   });
   const sorted = allBlogPosts.sort((a, b) => {
     const dateA = new Date(a.data.published);
@@ -72,7 +73,8 @@ export async function GetSortedPosts() {
  */
 export async function GetArchives() {
   const allBlogPosts = await getCollection("posts", ({ data }) => {
-    return import.meta.env.PROD ? data.draft !== true : true;
+    //return import.meta.env.PROD ? data.draft !== true : true;
+    return true
   });
 
   const archives = new Map<number, Archive[]>();
