@@ -1,12 +1,11 @@
 ---
-import i18next from "i18next";
-
+import YukinaConfig from "../../yukina.config";
 import BaseHead from "../components/BaseHead.astro";
 ---
 
-<html lang={i18next.language}>
+<html lang={YukinaConfig.locale}>
   <BaseHead />
-  <body>
+  <body class="overflow-y-hidden">
     <slot />
   </body>
 </html>

@@ -1,31 +1,22 @@
 ---
-import { YukinaConfig } from "../../yukina.config";
 
-let hitokotoQueryUrl = `https://${YukinaConfig.HitokotoSettings.url}?max_length=20`;
-YukinaConfig.HitokotoSettings.content_types.forEach((type) => {
-  hitokotoQueryUrl += `&c=${type}`;
-});
 ---
-
-<hitokoto data-url={hitokotoQueryUrl}></hitokoto>
 
 <script>
   import lozad from "lozad";
   import { OverlayScrollbars } from "overlayscrollbars";
 
-  // 设置文章链接
+  // setup post url
   const setupUrlAnchor = () => {
     const url = window.location.href;
-    const urlElement = document.getElementById(
-      "post-url",
-    ) as HTMLAnchorElement | null;
+    const urlElement = document.getElementById("post-url") as HTMLAnchorElement;
     if (urlElement) {
       urlElement.href = url;
       urlElement.innerText = url;
     }
   };
 
-  // 设置图片懒加载
+  // setup lazy load for images
   const setupLozad = () => {
     const observer = lozad(".lozad", {
       loaded: (el) => {
@@ -36,63 +27,8 @@ YukinaConfig.HitokotoSettings.content_types.forEach((type) => {
     observer.observe();
   };
 
-  // 设置一言
-  let hitokotoText: string = "";
-  const setupHitokoto = async () => {
-    // 获取一言 API 地址
-    let hitokotoQueryUrl: string = "https://international.v1.hitokoto.cn";
-    const hitokotoUrlElement = document.querySelector(
-      "hitokoto",
-    ) as HTMLElement | null;
-    if (!hitokotoUrlElement) return;
-    hitokotoQueryUrl =
-      hitokotoUrlElement.getAttribute("data-url") || hitokotoQueryUrl;
-
-    // 获取一言内容
-    if (hitokotoText === "") {
-      const response = await fetch(hitokotoQueryUrl);
-      const { hitokoto, from } = await response.json();
-      hitokotoText = `${hitokoto} —— 「${from}」`;
-    }
-    const hitokoto = document.querySelector(
-      "#hitokoto_text",
-    ) as HTMLHeadingElement | null;
-    if (!hitokoto) return;
-    hitokoto.innerText = hitokotoText;
-  };
-
-  const setupLanguageSelector = () => {
-    const languageSelections = document.querySelectorAll(".language-selection");
-    languageSelections.forEach((selection) => {
-      selection.addEventListener("click", () => {
-        const target = selection.getAttribute("data-target");
-        if (target) window.location.href = target;
-      });
-    });
-  };
-
-  const setupSearchBtn = () => {
-    const searchBtn = document.getElementById("search-btn");
-    const searchModal = document.getElementById("search-modal");
-    if (!searchBtn || !searchModal) return;
-    searchBtn.addEventListener("click", () => {
-      searchModal.classList.remove("hidden");
-    });
-    searchModal.addEventListener("click", (e) => {
-      if (e.target === searchModal) {
-        searchModal.classList.add("hidden");
-      }
-    });
-    // searchModal.addEventListener("keydown", (e) => {
-    //   if (e.key === "Escape") {
-    //     searchModal.classList.add("hidden");
-    //     document.body.style.overflow = "auto";
-    //   }
-    // });
-  };
-
+  // add global scroll bar
   const setupScrollBar = () => {
-    // global
     OverlayScrollbars(
       { target: document.body, cancel: { nativeScrollbarsOverlaid: true } },
       {
@@ -102,8 +38,9 @@ YukinaConfig.HitokotoSettings.content_types.forEach((type) => {
         },
       },
     );
+    document.body.classList.remove("overflow-y-hidden");
 
-    // pre
+    // add scrollbar for code blocks
     document.querySelectorAll("pre").forEach((ele) => {
       OverlayScrollbars(ele, {
         scrollbars: {
@@ -116,19 +53,14 @@ YukinaConfig.HitokotoSettings.content_types.forEach((type) => {
     });
   };
 
-  // 初始化
+  // init
   const setup = () => {
     setupUrlAnchor();
     setupLozad();
-    setupHitokoto();
-    setupLanguageSelector();
-    setupSearchBtn();
     setupScrollBar();
   };
 
-  // 监听事件
   document.addEventListener("DOMContentLoaded", setup);
-  // 监听 swup 事件
   if (window.swup?.hooks) {
     setup();
   } else {

@@ -1,88 +1,94 @@
-# Yukina - 友希那
+# Yukina
 
-简单优雅的 Astro 博客模板
+Simple and Elegant Astro Blog Template
 
 ![Preview](https://s2.loli.net/2024/12/06/KQlEiph216mOZdy.webp)
 
-> If you are looking for an English version, please click [here](https://github.com/WhitePaper233/yukina/blob/main/README_en.md).
+[中文](https://github.com/WhitePaper233/yukina/blob/main/README_zh.md)
 
-## Demo 预览链接
+## Demo Preview Links
 
 [🖥️ Live Demo (Vercel)](https://yukina-blog.vercel.app) |
-[🖥️ WhitePaper233's Blog ( 可能非最新版本 )](https://yukina-blog.vercel.app)
+[🖥️ WhitePaper233's Blog (possibly not the latest version)](https://whitepaper233.top/)
 
-## 🛠️ 构建指南
+## 🛠️ Build Guide
 
-### 1. 安装 Node.js 22 以上版本
+### 1. Install Node.js version 22 or above
 
-前往 [Node.js 官网](https://nodejs.org/) 下载并安装最新版本的 Node.js。
+Go to the [Node.js official website](https://nodejs.org/) to download and install the latest version of Node.js.
 
-### 2. 启用 Corepack
+### 2. Enable Corepack
 
 ```bash
 corepack enable
 ```
 
-### 3. 安装 Yarn 4.5.1 或以上版本
+### 3. Install pnpm
 
 ```bash
-corepack prepare yarn@4.5.1 --activate
+corepack enable pnpm
 ```
 
-### 4. 安装依赖
+### 4. Install Dependencies
 
 ```bash
-yarn
+pnpm install
 ```
 
-### 5. 启动开发服务器
+### 5. Build Search Index
 
 ```bash
-yarn dev
+pnpm build
 ```
 
-### 6. 构建项目
+### 6. Start Development Server
 
 ```bash
-yarn build
+pnpm dev
 ```
 
-### 7. 预览项目
+### 7. Build Project
 
 ```bash
-yarn preview
+pnpm build
 ```
 
-## 🗺️ 路线图
+### 8. Preview Project
 
-### 近期
+```bash
+pnpm preview
+```
 
-✅ - 已完成 | 🧪 - 测试中 | 🚧 - 进行中 | ⏳ - 计划中
+## 🗺️ Roadmap
 
-| 状态 | 项目                             |
-| ---- | -------------------------------- |
-| 🧪   | 基础功能实现                     |
-| 🚧   | 重构部分代码，优化总体结构       |
-| 🚧   | 优化动画效果                     |
-| 🚧   | 移动端适配                       |
-| 🚧   | 优化网站性能                     |
-| 🧪   | 可调的颜色                       |
-| ⏳   | 添加 RSS、SiteMap 等功能         |
-| ⏳   | 更多构建选项（如 SLUG 生成方法） |
-| ⏳   | 添加 Live2D 小人                 |
-| 🧪   | 搜索功能                         |
-| 🧪   | i18n                             |
+### Recent
 
-### 远期
+✅ - Completed | 🧪 - In Testing | 🚧 - In Progress | ⏳ - Planned
 
-| 状态 | 项目                              |
-| ---- | --------------------------------- |
-| ⏳   | 开发一个便于管理的 CLI 和小型 CMS |
-| ⏳   | Slidev 组件                       |
-| ⏳   | 更多 Markdown 组件                |
+| Status | Project                                             |
+| ------ | --------------------------------------------------- |
+| 🧪     | Basic feature implementation                        |
+| 🧪     | Refactoring some code, optimizing overall structure |
+| 🧪     | Optimizing animation effects                        |
+| 🧪     | Mobile adaptation                                   |
+| 🚧     | Optimizing website performance                      |
+| 🧪     | Adjustable colors                                   |
+| 🧪     | Adding RSS, SiteMap, and other features             |
+| 🧪     | More build options (e.g., SLUG generation methods)  |
+| ⏳     | Adding Live2D character                             |
+| 🧪     | Search functionality                                |
+| 🧪     | i18n                                                |
 
-## 🙏 特别感谢
+### Long-term
 
-- [Hexo Shoka 主题](https://github.com/amehime/hexo-theme-shoka) 提供设计思路
+| Status | Project                                        |
+| ------ | ---------------------------------------------- |
+| ⏳     | Developing an easy-to-manage CLI and small CMS |
+| ⏳     | Slidev components                              |
+| ⏳     | More Markdown components                       |
 
-- [Astro Fuwari 模板](https://github.com/saicaca/fuwari) 提供了主要的设计思路和一部分代码实现
+## 🙏 Special Thanks
+
+- [Hexo Shoka Theme](https://github.com/amehime/hexo-theme-shoka) for providing design ideas
+
+- [Astro Fuwari Template](https://github.com/saicaca/fuwari) for providing the main design ideas and some code implementations

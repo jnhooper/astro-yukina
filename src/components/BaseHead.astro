@@ -1,20 +1,9 @@
 ---
-// config
-import { YukinaConfig } from "../../yukina.config";
-
-// Scripts
+import YukinaConfig from "../../yukina.config";
+import GlobalStyles from "./GlobalStyles.astro";
 import ScriptSetup from "./ScriptSetup.astro";
 
-// styles
-import "overlayscrollbars/overlayscrollbars.css";
-
-// import "../styles/theme.css";
-import "../styles/animations.css";
-import "../styles/transitions.css";
-import "../styles/scrollbar.css";
-
-import { HeadHrefLangs } from "astro-i18next/components";
-import GlobalStyles from "./GlobalStyles.astro";
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!-- Global Metadata -->
@@ -22,44 +11,51 @@ import GlobalStyles from "./GlobalStyles.astro";
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
-<HeadHrefLangs />
 
-<!-- RSS Feed Discovery -->
-<link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
 
 <!-- Primary Meta Tags -->
-<title>{YukinaConfig.Title} - {YukinaConfig.Description}</title>
-<meta name="title" content={YukinaConfig.Title} />
-<meta name="description" content={YukinaConfig.Description} />
+<title>{YukinaConfig.title}</title>
+<meta name="title" content={YukinaConfig.title} />
+<meta name="description" content={YukinaConfig.description} />
 
-<!-- Open Graph -->
+<!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={Astro.url} />
-<!-- <meta property="og:title" content={MIRAI_CONFIG.TITILE} />
-<meta property="og:description" content={MIRAI_CONFIG.DESCRIPTION} /> -->
-<meta
-  property="og:image"
-  content={new URL("/placeholder-social.jpg", Astro.url)}
+<meta property="og:title" content={YukinaConfig.title} />
+<meta property="og:description" content={YukinaConfig.description} />
+<!-- <meta property="og:image" content={new URL(image, Astro.url)} /> -->
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={YukinaConfig.title} />
+<meta property="twitter:description" content={YukinaConfig.description} />
+<!-- <meta property="twitter:image" content={new URL(image, Astro.url)} /> -->
+
+<!-- RSS AutoDiscovery -->
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={YukinaConfig.title}
+  href={new URL("rss.xml", Astro.site)}
 />
 
-<!-- 动态载入 iconfont css -->
+<!-- SiteMap -->
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- CSS -->
 <link
-  rel="preload"
-  href={`https://${YukinaConfig.IconfontURL}`}
-  as="style"
-  onload="this.onload=null;this.rel='stylesheet'"
+  rel="stylesheet"
+  href="https://fastly.jsdelivr.net/npm/katex/dist/katex.min.css"
 />
-<!-- Katex css -->
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.bunny.net" />
 <link
-  href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
+  href="https://fonts.bunny.net/css?family=noto-sans-sc:100,200,300,400,500,600,700,800,900|raleway:500,700"
   rel="stylesheet"
 />
 
-<!-- scripts -->
-<ScriptSetup />
-<script src="../scripts/global.ts"></script>
-
-<!-- GlobalStyles -->
 <GlobalStyles />
-
-<title>{YukinaConfig.Title}</title>
+<ScriptSetup />

@@ -7,10 +7,8 @@
 }
 
 .article code:not(pre code) {
-  font-size: 14px !important;
-  font-family: "JetBrains Mono", "Fira Code", "Fira Mono", "Menlo", "Consolas",
-    "DejaVu Sans Mono", "monospace" !important;
-  padding: 4px;
+  @apply text-sm;
+  font-family: var(--code-font) !important;
   border-radius: 4px;
   color: var(--primary-color) !important;
   background-color: var(--primary-color-lighten) !important;
@@ -38,7 +36,7 @@
   display: block;
   content: " ";
   background-color: var(--primary-color);
-  top: 3px;
+  top: 2.5px;
   bottom: 3px;
   width: 0.3rem;
   border-radius: 4px;
@@ -50,7 +48,7 @@
 .article h4 > a,
 .article h5 > a,
 .article h6 > a {
-  margin: 0.5rem;
+  @apply m-2;
 }
 
 .article li::marker {
@@ -62,10 +60,14 @@
 }
 
 .article blockquote {
+  @apply py-0.5 pl-3 pr-3 lg:pl-4;
   font-style: normal !important;
   border-radius: 0.25rem;
-  padding-left: 0.75rem !important;
-  background-color: var(--primary-color-lighten) !important;
+  background-color: var(--primary-color-transparent) !important;
+}
+
+.article blockquote blockquote {
+  @apply my-1;
 }
 
 .article blockquote p {
@@ -83,11 +85,11 @@
 }
 
 .article blockquote p::before {
-  content: '' !important;
+  content: "" !important;
 }
 
 .article blockquote p::after {
-  content: '' !important;
+  content: "" !important;
 }
 
 .article a {
@@ -95,20 +97,19 @@
 }
 
 .article hr {
-  margin-top: 36px;
-  margin-bottom: 36px;
+  @apply my-6;
   border-color: var(--primary-color-lighten) !important;
 }
 
 .article pre {
+  @apply my-3;
   overflow: hidden !important;
 }
 
 .article span.line {
   font-size: 14px !important;
   line-height: normal;
-  font-family: "JetBrains Mono", "Fira Code", "Fira Mono", "Menlo", "Consolas",
-    "DejaVu Sans Mono", "monospace" !important;
+  font-family: var(--code-font) !important;
 }
 
 .article code {
@@ -133,7 +134,6 @@
 .article p {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
-  font-family: "Noto Sans SC", sans-serif;
 }
 
 .article .astro-code {

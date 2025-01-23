@@ -1,24 +1,21 @@
 ---
 import { getEntry, render } from "astro:content";
-import { changeLanguage } from "i18next";
 import Main from "../layouts/MainLayout.astro";
 import Markdown from "../components/Markdown.astro";
 import CopyRight from "../components/misc/CopyRight.astro";
 
-changeLanguage("en");
-
-const aboutPost = await getEntry("spec", "about");
-const { Content } = await render(aboutPost);
+const aboutPost = await getEntry("specs", "about");
+const { Content } = await render(aboutPost!);
 interface Props {
-    title?: string;
-    subTitle?: string;
-    headerImg?: string;
-    published?: Date;
+  title?: string;
+  subTitle?: string;
+  bannerImage?: string;
+  published?: Date;
 }
-const { title, subTitle, headerImg, published } = Astro.props;
+const { title, subTitle, bannerImage, published } = Astro.props;
 ---
 
-<Main title={title} subTitle={subTitle} headerImg={headerImg}>
+<Main title={title} subTitle={subTitle} bannerImage={bannerImage}>
   <!-- <Fragment set:html={tocHTMLString} /> -->
   <div class="article-wrapper">
     <div class="article">

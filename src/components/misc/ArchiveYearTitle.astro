@@ -1,5 +1,6 @@
 ---
-import { t } from "i18next";
+import I18nKeys from "../../locales/keys";
+import { i18n } from "../../locales/translation";
 
 export interface Props {
   year: number;
@@ -11,7 +12,9 @@ const { year, count } = Astro.props;
 
 <div class="mb-2 flex w-full flex-row items-center">
   <div class="flex w-[15%] flex-row justify-end md:w-[10%]">
-    <p class="year text-2xl font-bold text-[var(--text-color)]">{year}</p>
+    <p class="year select-none text-2xl font-bold text-[var(--text-color)]">
+      {year}
+    </p>
   </div>
   <div class="dash-line relative flex h-full w-[15%] items-center md:w-[10%]">
     <div
@@ -20,23 +23,22 @@ const { year, count } = Astro.props;
     </div>
   </div>
   <div>
-    <p class="count text-[var(--text-color-lighten)]">
+    <p class="count select-none text-[var(--text-color-lighten)]">
       {
-        t("components.archive_year_title.total_count").replace(
-          "{{count}}",
-          count.toString(),
-        )
+        count == 1 &&
+          i18n(I18nKeys.archive_year_title_count_single, count.toString())
       }
+      {count == 2 && i18n(I18nKeys.archive_year_title_count, count.toString())}
     </p>
   </div>
 </div>
 <style>
   .year {
-    font-family: "Noto Sans SC", sans-serif;
+    font-family: var(--primary-font);
   }
 
   .count {
-    font-family: "Noto Sans SC", sans-serif;
+    font-family: var(--primary-font);
   }
 
   .dash-line::before {

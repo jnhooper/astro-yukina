@@ -1,12 +1,10 @@
 ---
-import { Picture } from 'astro:assets';
-import { t } from "i18next";
-// @ts-ignore
-import { localizePath } from "astro-i18next";
-
-import { YukinaConfig } from "../../yukina.config";
+import { Picture } from "astro:assets";
+import YukinaConfig from "../../yukina.config";
+import I18nKeys from "../locales/keys";
+import { i18n } from "../locales/translation";
 import { GetCategories, GetTags } from "../utils/content";
-import SocialIcon from "./widget/SocialIcon.astro";
+import SocialIcon from "./widgets/SocialIcon.astro";
 
 const tags = await GetTags();
 const categories = await GetCategories();
@@ -18,28 +16,31 @@ const categories = await GetCategories();
       class="onload-animation rounded-3xl bg-[var(--card-color)] p-3"
       style=`animation-delay: var(--onload-animation-delay);`
     >
-      <a href={localizePath("/about")} class="avatar-wrapper">
+      <a href="/about" class="avatar-wrapper">
         <Picture
-          src={YukinaConfig.Avatar}
+          inferSize={!YukinaConfig.avatar}
+          src={YukinaConfig.avatar || YukinaConfig.avatarUrl}
           alt="avatar"
           class="avatar lozad select-none"
         />
       </a>
       <div class="username mt-4">
-        <p>{YukinaConfig.Username}</p>
-        <div></div>
+        <p>{YukinaConfig.username}</p>
       </div>
-      <p class="slogan mt-1 text-center text-[var(--text-color-lighten)]">
-        {YukinaConfig.Sign}
+      <p class="slogan mt-2 text-center text-[var(--text-color-lighten)]">
+        {YukinaConfig.sign}
       </p>
       {
-        YukinaConfig.SocialLinks.length > 0 && (
-          <div class="mt-3 flex flex-row justify-center">
+        YukinaConfig.socialLinks.length > 0 && (
+          <div class="mt-1 flex flex-row justify-center">
             <div class="flex w-[184px] flex-wrap justify-center gap-2">
-              {YukinaConfig.SocialLinks.map((item) => (
-              <SocialIcon
-                icon={item.icon}
-                link={item.link} />
+              {YukinaConfig.socialLinks.map((item) => (
+                <SocialIcon
+                  icon={item.icon}
+                  name={item.name}
+                  link={item.link}
+                  type={item.type}
+                />
               ))}
             </div>
           </div>
@@ -54,14 +55,14 @@ const categories = await GetCategories();
     >
       <div class="title m-[0.375rem]">
         <p class="pl-4 text-xl font-bold text-[var(--text-color)]">
-          {t("components.side_bar.categories")}
+          {i18n(I18nKeys.side_bar_categories)}
         </p>
       </div>
       <div class="flex flex-col">
         {
           categories.keys().map((category) => (
             <a
-              href={localizePath(`/categories/${category}`)}
+              href={`/categories/${category}`}
               class="category flex flex-row items-center justify-between rounded-lg px-3 py-2 transition-all hover:bg-[var(--primary-color-lighten)]"
             >
               <p class="text-[var(--text-color)] transition-all">
@@ -83,14 +84,14 @@ const categories = await GetCategories();
     >
       <div class="title m-[0.375rem]">
         <p class="pl-4 text-xl font-bold text-[var(--text-color)]">
-          {t("components.side_bar.tags")}
+          {i18n(I18nKeys.side_bar_tags)}
         </p>
       </div>
       <div class="flex max-w-[224px] flex-row flex-wrap">
         {
           tags.keys().map((tag) => (
             <a
-              href={localizePath(`/tags/${tag}`)}
+              href={`/tags/${tag}`}
               class="tag m-1 rounded-md bg-[var(--primary-color-lighten)] px-2 py-1 transition-all hover:brightness-95"
             >
               <p class="text-sm text-[var(--primary-color)]">
@@ -118,7 +119,7 @@ const categories = await GetCategories();
 
   .username > p {
     @apply text-center text-xl font-semibold text-[var(--text-color)];
-    font-family: "Raleway", "Noto Sans SC", sans-serif;
+    font-family: var(--title-font);
   }
 
   .username > div {
@@ -126,7 +127,7 @@ const categories = await GetCategories();
   }
 
   .slogan {
-    font-family: "Raleway", "Noto Sans SC", sans-serif;
+    font-family: var(--title-font);
   }
 
   .title {
@@ -148,11 +149,11 @@ const categories = await GetCategories();
   }
 
   .title p {
-    font-family: "Noto Sans SC", sans-serif;
+    font-family: var(--primary-font);
   }
 
   .category {
-    font-family: "Noto Sans SC", sans-serif;
+    font-family: var(--primary-font);
   }
 
   .category:hover > p {
@@ -160,6 +161,6 @@ const categories = await GetCategories();
   }
 
   .tag {
-    font-family: "Noto Sans SC", sans-serif;
+    font-family: var(--primary-font);
   }
 </style>

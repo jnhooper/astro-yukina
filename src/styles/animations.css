@@ -6,11 +6,13 @@
 
 @keyframes fade-in-up {
   0% {
+    scale: 98%;
     transform: translateY(2rem);
     opacity: 0;
   }
 
   100% {
+    scale: 100%;
     transform: translateY(0);
     opacity: 1;
   }

@@ -1,37 +1,30 @@
 ---
-// @ts-ignore
-import { localizePath } from "astro-i18next";
+import { formatDate } from "../../utils/date";
+import YukinaConfig from "../../../yukina.config";
 
 export interface Props {
-  slug: string;
+  id: string;
   title: string;
   pubilished: Date;
-  tags: string[];
+  tags: string[] | undefined;
 }
 
-// const { slug, title, pubilished, tags } = Astro.props;
-const { slug, title, pubilished } = Astro.props;
-
-function formatDate(date: Date): string {
-  return date
-    .toLocaleDateString("zh-CN", {
-      month: "2-digit",
-      day: "2-digit",
-    })
-    .replaceAll("/", " - ");
-}
-
-const formattedDate = formatDate(pubilished);
+const { id, title, pubilished } = Astro.props;
 ---
 
 <div class="item">
   <a
-    href={localizePath(slug)}
+    href={id}
     class="flex w-full select-none flex-row items-center rounded-md py-2 transition-colors hover:bg-[var(--primary-color-lighten)]"
   >
     <div class="flex w-[15%] flex-row justify-end md:w-[10%]">
       <p class="date text-sm text-[var(--text-color-lighten)]">
-        {formattedDate}
+        {
+          formatDate(pubilished, YukinaConfig.locale, {
+            month: "2-digit",
+            day: "2-digit",
+          })
+        }
       </p>
     </div>
     <div class="dash-line relative flex h-full w-[15%] items-center md:w-[10%]">
@@ -40,8 +33,10 @@ const formattedDate = formatDate(pubilished);
       >
       </div>
     </div>
-    <div class="flex flex-row">
-      <p class="title font-semibold text-[var(--text-color)] transition-all">
+    <div class="flex w-[70%] flex-row md:w-[80%]">
+      <p
+        class="title truncate font-semibold text-[var(--text-color)] transition-all"
+      >
         {title}
       </p>
     </div>
@@ -49,11 +44,11 @@ const formattedDate = formatDate(pubilished);
 
   <style>
     .date {
-      font-family: "Noto Sans SC", sans-serif;
+      font-family: var(--primary-font);
     }
 
     .title {
-      font-family: "Noto Sans SC", sans-serif;
+      font-family: var(--primary-font);
     }
 
     .item:hover .title {

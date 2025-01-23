@@ -1,41 +1,31 @@
-import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { glob } from "astro/loaders";
+import { defineCollection, z } from "astro:content";
 
-const postCollection = defineCollection({
-  // For content layer you no longer define a `type`
+const posts = defineCollection({
   loader: glob({
-    pattern: '**/[^_]*.{md,mdx}',
-    //base: "./src/data/blog",
-    base: "./src/content/posts",
+    pattern: "**/*.md",
+    base: "src/contents/posts",
   }),
   schema: z.object({
     title: z.string(),
     published: z.date(),
     draft: z.boolean().optional(),
     description: z.string().optional(),
-    image: z.string().optional(),
+    cover: z.string().optional(),
     tags: z.array(z.string()).optional(),
-    /**
-     * category for the post
-     **/
-    category: z.string(),
-    url:z.string().url().optional()
-    //title: z.string(),
-    //description: z.string(),
-    //pubDate: z.coerce.date(),
-    //updatedDate: z.coerce.date().optional(),
+    category: z.string().optional(),
+    author: z.string().optional(),
+    sourceLink: z.string().optional(),
+    licenseName: z.string().optional(),
+    licenseUrl: z.string().optional(),
   }),
 });
 
-const specCollection = defineCollection({
+const specs = defineCollection({
   loader: glob({
-    pattern: '**/[^_]*.{md,mdx}',
-    //base: "./src/data/blog",
-    base: "./src/content/spec",
-  })
-})
+    pattern: "**/*.md",
+    base: "src/contents/specs",
+  }),
+});
 
-export const collections = {
-  posts: postCollection,
-  spec: specCollection
-};
+export const collections = { posts, specs };

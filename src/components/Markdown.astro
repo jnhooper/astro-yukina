@@ -1,7 +1,5 @@
 ---
 import "../styles/markdown.css";
-// import '../styles/prism.css';
-import "../../public/fonts/JetBrainsMono.woff2";
 
 export interface Props {
   class?: string;
@@ -11,7 +9,7 @@ const { class: className } = Astro.props;
 ---
 
 <div
-  class=`prose prose-base dark:prose-invert shrink max-w-full ${className ?? ''}`
+  class=`prose prose-sm lg:prose-base dark:prose-invert shrink max-w-full ${className ?? ''}`
 >
   <slot />
 </div>

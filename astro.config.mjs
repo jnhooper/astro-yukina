@@ -1,44 +1,52 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
-import swup from "@swup/astro";
-import astroI18next from "astro-i18next";
-import pagefind from "astro-pagefind";
 
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import icon from "astro-icon";
+import sitemap from "@astrojs/sitemap";
+import tailwind from "@astrojs/tailwind";
+import svelte from "@astrojs/svelte";
+import swup from "@swup/astro";
+import lottie from "astro-integration-lottie";
+
 import rehypeSlug from "rehype-slug";
 import rehypeKatex from "rehype-katex";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import remarkMath from "remark-math";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
-//import { remarkTOC } from "./src/plugins/remark-toc.mjs";
+
+import YukinaConfig from "./yukina.config";
+
+import pagefind from "astro-pagefind";
 
 // https://astro.build/config
 export default defineConfig({
+  site: YukinaConfig.site,
   experimental: {
-     svg: true,
-   },
-  output: "static",
+   svg: true,
+  },
   integrations: [
-    pagefind(),
-    astroI18next(),
+    lottie(),
     tailwind(),
+    svelte(),
+    icon(),
     swup({
       theme: false,
-      containers: ["main", ".banner-inner", "#language-selector-dropdown"],
+      containers: ["main", "footer", ".banner-inner"],
       smoothScrolling: true,
       progress: true,
       cache: true,
       preload: true,
       updateHead: true,
       updateBodyClass: false,
-      // accessibility: true,
       globalInstance: true,
     }),
+    sitemap(),
+    pagefind(),
   ],
   markdown: {
     shikiConfig: {
       theme: "github-dark-default",
     },
-    remarkPlugins: [remarkReadingTime, remarkMath], // remarkTOC disabled for now
+    remarkPlugins: [remarkReadingTime, remarkMath],
     rehypePlugins: [
       rehypeSlug,
       rehypeKatex,

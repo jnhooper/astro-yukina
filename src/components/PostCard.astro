@@ -1,63 +1,98 @@
 ---
-import { render } from "astro:content";
 import { Picture } from 'astro:assets';
-import { t } from "i18next";
-// @ts-ignore
-import { localizePath } from "astro-i18next";
-
-import { SlugToRealSlug } from "../utils/hash";
-import Icon from "./widget/Icon.astro";
+import { IdToSlug } from "../utils/hash";
+import { Icon } from "astro-icon/components";
+import PostCardInfoIcon from "./widgets/PostCardInfoIcon.astro";
 import { GetCoverURLForUnspecifiedEntry } from "../utils/cover";
+import { i18n } from "../locales/translation";
+import I18nKeys from "../locales/keys";
+import YukinaConfig from "../../yukina.config";
+import { formatDate } from "../utils/date";
 
 export interface Props {
-  slug: string;
+  id: string;
   title: string;
   published: Date;
   category?: string;
   tags?: string[];
   description?: string;
   image?: string;
-  entry: any;
+  readingMetadata: { time: number; wordCount: number };
 }
 
 const props = Astro.props;
-const entryID = SlugToRealSlug(props.slug);
+const entryID = IdToSlug(props.id);
 const contentUrl = `/posts/${entryID}`;
-const { remarkPluginFrontmatter } = await render(props.entry);
-
-function formatDate(date: Date): string {
-  return date
-    .toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    })
-    .replace(/\//g, "-");
-}
+const { time, wordCount } = props.readingMetadata;
 ---
 
-<div class="flex h-[212px] flex-row bg-[var(--card-color)] md:rounded-3xl">
-  <div class="flex w-full flex-col space-y-3 py-8 pl-3 lg:w-[calc(var(--page-width-lg)-404px)] xl:w-[calc(var(--page-width-xl)-676px)]">
-    <div class="flex flex-row items-center">
-      <div class="mx-2 h-5 w-1 rounded-lg bg-[var(--primary-color)]"></div>
-      <a href={localizePath(contentUrl)} class="title">{props.title}</a>
+<div
+  class="mx-3 flex flex-col rounded-3xl bg-[var(--card-color)] lg:mx-0 lg:h-[212px]"
+>
+  <a
+    href={contentUrl}
+    class="relative h-[128px] transition-all hover:brightness-75 lg:hidden"
+  >
+    <img
+      class="lozad absolute left-0 top-0 h-full w-full rounded-t-3xl object-cover lg:hidden"
+      data-src={props.image ?? GetCoverURLForUnspecifiedEntry(entryID)}
+      alt="CoverPost"
+    />
+    <div class="absolute bottom-2 w-full">
+      <div class="mx-2 flex flex-row justify-between">
+        <div
+          class="flex flex-row items-center space-x-2 rounded-md bg-black/50 px-1.5 py-0.5 text-[var(--primary-color-lighten)] dark:text-[var(--text-color)]"
+        >
+          <Icon name="cuida:calendar-outline" />
+          <span class="select-none">
+            {formatDate(props.published, YukinaConfig.locale)}
+          </span>
+        </div>
+        {
+          props.category && (
+            <div class="flex flex-row items-center space-x-2 rounded-md bg-black/50 px-1.5 py-0.5 text-[var(--primary-color-lighten)] dark:text-[var(--text-color)]">
+              <Icon name="dashicons:category" />
+              <span class="max-w-28 select-none truncate">
+                {props.category}
+              </span>
+            </div>
+          )
+        }
+      </div>
     </div>
-    <div class="space-y-3 px-5">
-      <div>
+  </a>
+  <div class="flex h-[128px] flex-row lg:h-[212px]">
+    <div
+      class="flex w-full flex-col justify-between pb-5 pl-5 pr-6 pt-3 lg:w-[calc(var(--page-width-lg)-404px)] lg:py-7 lg:pr-0 xl:w-[calc(var(--page-width-xl)-676px)]"
+    >
+      <div class="flex w-full flex-row items-center">
+        <div
+          class="mx-2 hidden h-6 w-1 translate-y-[1px] rounded-lg bg-[var(--primary-color)] lg:block"
+        >
+        </div>
+        <a href={contentUrl} class="title">
+          <p class="truncate">{props.title}</p>
+          <Icon
+            name="cuida:caret-right-outline"
+            class="translate-y-[0.07rem] text-[var(--primary-color)]"
+          />
+        </a>
+      </div>
+      <div class="ml-2 hidden lg:block">
         <ul class="flex flex-row space-x-4">
           <li class="data space-x-2">
-            <Icon icon="ic-calendar" />
-            <span>{formatDate(props.published)}</span>
+            <PostCardInfoIcon name="cuida:calendar-outline" />
+            <span class="select-none">
+              {formatDate(props.published, YukinaConfig.locale)}
+            </span>
           </li>
           {
             props.category && (
-              <li class="data space-x-2">
-                <Icon icon="ic-category" />
+              <li class="data space-x-1.5">
+                <PostCardInfoIcon name="dashicons:category" />
                 <a
-                  class="rounded-md px-1.5 py-0.5 text-[var(--text-color-lighten)] transition-all hover:bg-[var(--primary-color-lighten)] hover:text-[var(--primary-color)]"
-                  href={localizePath(
-                    `/categories/${SlugToRealSlug(props.category)}`,
-                  )}
+                  class="select-none rounded-md px-1.5 py-0.5 text-[var(--text-color-lighten)] transition-all hover:bg-[var(--primary-color-lighten)] hover:text-[var(--primary-color)]"
+                  href={`/categories/${IdToSlug(props.category)}`}
                 >
                   {props.category}
                 </a>
@@ -70,66 +105,68 @@ function formatDate(date: Date): string {
             {
               props.tags && (
                 <div class="data space-x-2">
-                  <Icon icon="ic-tag" />
+                  <PostCardInfoIcon name="mdi:tag-outline" />
                   <ul class="flex flex-row items-center space-x-1">
                     {props.tags.slice(0, 3).map((tag, index) => (
                       <li class="flex select-none flex-row items-center text-[var(--text-color-lighten)]">
                         {index > 0 && <span class="pr-1">/</span>}
                         <a
                           class="rounded-md px-1.5 py-0.5 transition-all hover:bg-[var(--primary-color-lighten)] hover:text-[var(--primary-color)]"
-                          href={localizePath(`/tags/${SlugToRealSlug(tag)}`)}
+                          href={`/tags/${IdToSlug(tag)}`}
                         >
                           {tag}
                         </a>
                       </li>
                     ))}
                   </ul>
-                  {/* <span>{props.tags.slice(0, 3).join(" / ")}</span> */}
                 </div>
               )
             }
           </li>
         </ul>
       </div>
-      <div>
+      <div class="lg:ml-2">
         <p class="desc">{props.description}</p>
       </div>
-      <div class="select-none">
-        <div class="reading-time">
-          <span
-            >{remarkPluginFrontmatter.readingMetadata.wordCount}
-            {t("components.post_card.words")}</span
-          >
-          <span>|</span>
-          <span
-            >{remarkPluginFrontmatter.readingMetadata.time}
-            {t("components.post_card.minutes")}</span
-          >
+      <div>
+        <div class="select-none lg:ml-2">
+          <div class="reading-time">
+            <span>
+              {wordCount}
+              {i18n(I18nKeys.post_card_words)}
+            </span>
+            <span>|</span>
+            <span>
+              {time}
+              {i18n(I18nKeys.post_card_minutes)}
+            </span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="cover-container">
-    <a href={localizePath(contentUrl)} class="cover-wrapper">
-      <i class="right-icon iconfont ic-right"></i>
-      <Picture
-        class="cover lozad"
-        inferSize
-        src={props.image ?? GetCoverURLForUnspecifiedEntry(entryID)}
-        alt="post cover"
-      />
-    </a>
+    <div class="cover-container">
+      <a href={contentUrl} class="cover-wrapper">
+        <Icon class="right-icon" name="cuida:caret-right-outline" size={96} />
+        <Picture
+          inferSize
+          src={props.image ?? GetCoverURLForUnspecifiedEntry(entryID)}
+          class="lozad h-[212px] w-[404px] select-none rounded-r-3xl object-cover dark:brightness-90"
+          data-src={props.image ?? GetCoverURLForUnspecifiedEntry(entryID)}
+          alt="PostCover"
+        />
+      </a>
+    </div>
   </div>
 </div>
 <style>
   .title {
-    @apply align-top text-2xl font-semibold text-[var(--text-color)];
+    @apply flex w-full flex-row items-center space-x-1 align-top text-xl font-semibold text-[var(--text-color)] lg:text-2xl;
     @apply transition-all hover:text-[var(--primary-color)];
     font-family: var(--primary-font);
   }
 
   .data {
-    font-family: "Noto Sans SC", sans-serif;
+    font-family: var(--primary-font);
     @apply flex flex-row items-center;
   }
 
@@ -139,7 +176,7 @@ function formatDate(date: Date): string {
   }
 
   .desc {
-    @apply min-h-[24px] truncate text-[var(--text-color)];
+    @apply line-clamp-1 text-[var(--text-color)];
     font-family: var(--primary-font);
   }
 
@@ -149,7 +186,7 @@ function formatDate(date: Date): string {
   }
 
   .cover-container {
-    @apply relative ml-2 hidden h-full min-w-[404px] max-w-[404px] select-none lg:block;
+    @apply relative ml-2 hidden h-[212px] min-w-[404px] max-w-[404px] select-none lg:block;
     clip-path: polygon(0 0%, 100% 0%, 100% 100%, 10% 100%);
   }
 
@@ -169,7 +206,7 @@ function formatDate(date: Date): string {
   }
 
   .right-icon {
-    @apply absolute left-1/2 top-1/2 z-[10] -translate-x-1/2 -translate-y-1/2 text-[4rem] font-bold text-white;
+    @apply absolute left-1/2 top-1/2 z-[10] -translate-x-1/2 -translate-y-1/2 text-white;
     clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
     transition: all 0.3s;
   }
@@ -178,10 +215,10 @@ function formatDate(date: Date): string {
     clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 100%);
   }
 
-  .cover {
+  /* .cover {
     @apply h-full w-full select-none rounded-r-3xl object-cover dark:brightness-90;
-    /*filter: sepia(1) hue-rotate(207deg);*/
-  }
+    filter: sepia(1) hue-rotate(207deg);
+  } */
   /*.cover-container:after{*/
   /*  content: '';*/
   /*  position: absolute;*/

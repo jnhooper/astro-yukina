@@ -1,79 +1,116 @@
 ---
-import { t } from "i18next";
-// @ts-ignore
-import { localizePath } from "astro-i18next";
-import LanguageSelector from "./control/LanguageSelector.astro";
+import YukinaConfig from "../../yukina.config";
+import { i18n } from "../locales/translation";
 
-import { YukinaConfig } from "../../yukina.config";
+import { Icon } from "astro-icon/components";
+import SearchBar from "./SearchBar.svelte";
+import MobileSearchBar from "./MobileSearchBar.svelte";
+import "astro-pagefind";
+
+const navCount = YukinaConfig.navigators.length;
 ---
 
 <nav class="nav" id="nav">
-  <div class="nav-content">
+  <div
+    class="relative flex h-[4rem] w-full items-center justify-between overflow-visible lg:h-[4.5rem]"
+  >
     <div class="brand after:content-['']">
-      <button type="button">
-        <i class="iconfont ic-list icon"></i>
+      <button
+        id="menu-switcher"
+        type="button"
+        class="h-[40px] w-[44px] content-center"
+      >
+        <Icon
+          id="menu-icon-closed"
+          size={24}
+          name="line-md:close-to-menu-transition"
+          class="mx-auto hidden"
+        />
+        <Icon
+          id="menu-icon-opened"
+          size={24}
+          name="line-md:menu-to-close-transition"
+          class="mx-auto hidden"
+        />
       </button>
-      <a class="title" href={localizePath("/")}>
-        {YukinaConfig.BrandTitle}
+      <a class="title" href="/">
+        {YukinaConfig.brandTitle}
       </a>
     </div>
-    <a class="brand-lg" href={localizePath("/")}>
-      <p class="title">
-        <i class="iconfont ic-home icon min-w-[24px]"></i>
-        {YukinaConfig.BrandTitle}
-      </p>
+    <a class="brand-lg" href="/">
+      <div class="title space-x-2">
+        <Icon name="heroicons:home" size={32} />
+        <p>{YukinaConfig.brandTitle}</p>
+      </div>
     </a>
     <div class="menu">
-      <a href={localizePath("/")}>
-        <p>{t("components.nav_bar.home")}</p>
-      </a>
-      <a href={localizePath("/archive")}>
-        <p>{t("components.nav_bar.archive")}</p>
-      </a>
-      <!-- <a href="/bangumi">
-        <p>番剧</p>
-      </a> -->
-      <a href={localizePath("/about")}>
-        <p>{t("components.nav_bar.about")}</p>
-      </a>
-      <a href="https://github.com/WhitePaper233/yukina">
-        <p>{t("components.nav_bar.github")}</p>
-      </a>
+      {
+        YukinaConfig.navigators.map((nav) => (
+          <a href={nav.href}>
+            <p>{i18n(nav.nameKey)}</p>
+          </a>
+        ))
+      }
     </div>
     <div class="toolbar">
-      <div class="search">
-        <button type="button" id="search-btn">
-          <i class="iconfont ic-search icon"></i>
-        </button>
+      <div class="lg:hidden">
+        <MobileSearchBar client:only="svelte" />
       </div>
-      <LanguageSelector />
+      <div class="hidden lg:block">
+        <SearchBar client:only="svelte" />
+      </div>
       <div class="theme">
         <button type="button" id="theme-switcher">
-          <i class="iconfont icon" id="theme-icon"></i>
+          <div class="visually-hidden">toggle light and dark mode</div>
+          <Icon
+            id="theme-icon-light"
+            name="line-md:moon-alt-to-sunny-outline-loop-transition"
+            size={24}
+            class="hidden"
+          />
+          <Icon
+            id="theme-icon-dark"
+            name="line-md:sunny-outline-to-moon-alt-loop-transition"
+            size={24}
+            class="hidden"
+          />
         </button>
       </div>
     </div>
   </div>
+  <div id="mobile-menu" class="px-3 transition-all">
+    <ul
+      id="mobile-menu-nav"
+      class="mobile-menu-nav mobile-menu-nav-closed flex flex-col space-y-6 overflow-hidden text-xl font-medium text-[var(--text-color)] transition-all duration-300"
+    >
+      {
+        YukinaConfig.navigators.map((nav) => (
+          <li class="mt-1">
+            <a href={nav.href} class="mobile-nav-item">
+              <div class="flex flex-row items-center space-x-2">
+                <span class="text-[var(--primary-color)]">·</span>
+                <span>{i18n(nav.nameKey)}</span>
+              </div>
+              <Icon
+                name="cuida:caret-right-outline"
+                class="text-[var(--text-color-lighten)]"
+              />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
 </nav>
-<style>
+
+<style define:vars={{ navCount }}>
   .nav {
-    @apply fixed left-1/2 z-50 flex w-full select-none flex-col justify-end bg-[var(--card-color-transparent)] px-2.5 backdrop-blur-md transition-all;
+    @apply fixed left-1/2 z-10 flex w-full select-none flex-col justify-end rounded-b-xl bg-[var(--card-color-transparent)] px-2.5 opacity-0 backdrop-blur-md transition-all;
     @apply lg:w-[var(--page-width-lg)] lg:rounded-b-2xl;
     @apply xl:w-[var(--page-width-xl)];
-    transform: translateX(-50%);
-    animation: 500ms nav-onload-animation;
-    animation-delay: var(--onload-animation-delay);
-    animation-timing-function: ease-in;
-  }
-
-  .nav-hidden {
-    transform: translateY(-5rem) translateX(-50%);
-    transition-property: transform;
-    transition-duration: 300ms;
-  }
-
-  .nav-content {
-    @apply relative flex h-[4.5rem] w-full items-center justify-between overflow-visible;
+    transform: translateX(-50%) translateY(-5rem);
+    animation: 300ms nav-onload-animation;
+    animation-fill-mode: forwards;
   }
 
   .brand {
@@ -82,7 +119,7 @@ import { YukinaConfig } from "../../yukina.config";
   }
 
   .brand > .title {
-    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg px-4 py-2 text-2xl font-medium text-[var(--primary-color)] truncate transition-all;
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 truncate rounded-lg px-4 py-2 text-2xl font-medium text-[var(--primary-color)] transition-all;
     @apply hover:bg-[var(--primary-color-hover)];
     font-family: var(--brand-font);
   }
@@ -128,16 +165,30 @@ import { YukinaConfig } from "../../yukina.config";
   }
 
   .toolbar {
-    @apply flex flex-row items-center justify-end space-x-1;
+    @apply flex flex-row items-center justify-end space-x-1 lg:mr-2;
   }
 
   .toolbar button {
-    @apply min-w-11 max-w-11 rounded-lg px-3 py-2 text-[var(--text-color)] transition-all;
+    @apply flex w-11 justify-center rounded-lg py-2 text-[var(--text-color)] transition-all;
     @apply hover:bg-[var(--primary-color-hover)] hover:text-[var(--primary-color)];
   }
 
   .toolbar .icon {
     @apply stroke-2 text-xl;
+  }
+
+  .mobile-menu-nav-closed {
+    @apply h-0 opacity-0;
+  }
+
+  .mobile-menu-nav-opened {
+    @apply opacity-100;
+    height: calc(var(--navCount) * 52px);
+  }
+
+  .mobile-menu-nav li a {
+    @apply flex flex-row items-center justify-between;
+    font-family: var(--primary-font);
   }
 
   @keyframes nav-onload-animation {
@@ -153,28 +204,127 @@ import { YukinaConfig } from "../../yukina.config";
 </style>
 
 <script>
+  /**
+   * Reinitializes an SVG icon by cloning it and replacing the original icon with the clone.
+   *
+   * @param icon - The SVG element to be reinitialized.
+   * @returns The cloned SVG element that replaced the original.
+   */
+  const reinitializeIcon = (icon: SVGElement) => {
+    const cloned = icon.cloneNode(true) as SVGElement;
+    icon.parentNode?.replaceChild(cloned, icon);
+    return cloned;
+  };
+
+  // get elements
+  const menuSwitcher = document.getElementById(
+    "menu-switcher",
+  ) as HTMLButtonElement;
+  const mobileMenuNav = document.getElementById(
+    "mobile-menu-nav",
+  ) as HTMLUListElement;
+  const mobileMenuNavItems = document.getElementsByClassName("mobile-nav-item");
+  let menuIconClosed = document.getElementById(
+    "menu-icon-closed",
+  ) as any as SVGElement;
+  let menuIconOpened = document.getElementById(
+    "menu-icon-opened",
+  ) as any as SVGElement;
+
+  // menu state
+  let isMenuOpen = false;
+
+  // switch menu open / close
+  const switchMenuState = () => {
+    menuIconClosed.style.display = isMenuOpen ? "block" : "none";
+    menuIconOpened.style.display = !isMenuOpen ? "block" : "none";
+    if (isMenuOpen) menuIconClosed = reinitializeIcon(menuIconClosed);
+    else menuIconOpened = reinitializeIcon(menuIconOpened);
+    if (isMenuOpen) {
+      mobileMenuNav.classList.replace(
+        "mobile-menu-nav-opened",
+        "mobile-menu-nav-closed",
+      );
+    } else {
+      mobileMenuNav.classList.replace(
+        "mobile-menu-nav-closed",
+        "mobile-menu-nav-opened",
+      );
+    }
+    isMenuOpen = !isMenuOpen;
+  };
+
+  // click menu item then close menu
+  menuSwitcher.addEventListener("click", switchMenuState);
+  for (let i = 0; i < mobileMenuNavItems.length; ++i) {
+    mobileMenuNavItems.item(i)?.addEventListener("click", switchMenuState);
+  }
+  // click other elements then close menu
+  document.addEventListener("click", (event) => {
+    if (
+      !menuSwitcher.contains(event.target as any) &&
+      !mobileMenuNav.contains(event.target as any) &&
+      isMenuOpen
+    ) {
+      switchMenuState();
+    }
+  });
+
   // Theme switcher
+  // Get elements
   const themeSwitcher = document.getElementById(
     "theme-switcher",
   ) as HTMLButtonElement;
-  const themeIcon = document.getElementById("theme-icon") as HTMLElement;
+  let themeIconLight = document.getElementById(
+    "theme-icon-light",
+  ) as any as SVGElement;
+  let themeIconDark = document.getElementById(
+    "theme-icon-dark",
+  ) as any as SVGElement;
 
+  // Record the current theme
   let currentTheme = localStorage.getItem("theme") || "light";
 
+  // Set theme
   const setTheme = (theme: string) => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
     currentTheme = theme;
-    themeIcon.classList.remove("ic-sun", "ic-moon");
-    themeIcon.classList.add(theme === "light" ? "ic-sun" : "ic-moon");
+
+    // Show/hide icons for different themes
+    themeIconDark.style.display = theme === "dark" ? "block" : "none";
+    themeIconLight.style.display = theme === "light" ? "block" : "none";
+
+    // If the theme is dark, update the dark icon; otherwise, update the light icon
+    if (theme === "dark") themeIconDark = reinitializeIcon(themeIconDark);
+    else themeIconLight = reinitializeIcon(themeIconLight);
+
+    // Toggle dark class
     document.documentElement.classList.toggle("dark", theme === "dark");
   };
 
+  // Click to switch theme
   themeSwitcher.addEventListener("click", () => {
     setTheme(currentTheme === "light" ? "dark" : "light");
   });
 
+  // Initialize
   document.addEventListener("DOMContentLoaded", () => {
     setTheme(currentTheme);
+    menuIconClosed.style.display = "block";
   });
+</script>
+
+<script is:inline>
+  // load pagefind
+  async function loadPagefind() {
+    const pagefind = await import("/pagefind/pagefind.js");
+    await pagefind.options({
+      excerptLength: 20,
+    });
+    pagefind.init();
+    window.pagefind = pagefind;
+    pagefind.search("");
+  }
+  loadPagefind();
 </script>

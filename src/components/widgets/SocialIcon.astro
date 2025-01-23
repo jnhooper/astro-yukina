@@ -1,0 +1,38 @@
+---
+import type { ImageMetadata } from "astro";
+import { Icon } from "astro-icon/components";
+
+export interface Props<T extends "lottie" | "url" | "svg"> {
+  icon: T extends "svg" ? ((_props: any) => any) & ImageMetadata : string;
+  link: string;
+  type?: T;
+  name: string;
+}
+const { icon: IconComponent, link, name, type = "url" } = Astro.props;
+---
+
+<a href={link} target="_blank">
+  <div class="visually-hidden">
+    open {name} in a new tab
+  </div>
+  <div
+    class="flex h-10 w-10 flex-col justify-center rounded-lg transition-all hover:brightness-75 dark:hover:brightness-125"
+  >
+    <div class="flex flex-row justify-center">
+      {
+        type === "url" ? (
+          <Icon
+            name={IconComponent}
+            size={24}
+            class="text-[var(--primary-color)]"
+          />
+        ) : null
+      }
+      {
+        type === "svg" ? (
+          <IconComponent class="text-[var(--primary-color)]" />
+        ) : null
+      }
+    </div>
+  </div>
+</a>

@@ -1,14 +1,28 @@
 ---
-
+import "../styles/animations.css";
+import "../styles/scrollbar.css";
+import "../styles/transitions.css";
+import "../styles/searchbar.css";
+import "overlayscrollbars/overlayscrollbars.css";
 ---
 
 <style is:global>
+  .visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
   :root {
-    --hue: 290;
+    --hue: 300;
 
-    --primary-color: oklch(70% 0.15 var(--hue));
+    --primary-color: oklch(40% 0.15 var(--hue));
     --primary-color-lighten: oklch(95% 0.02 var(--hue));
     --primary-color-hover: oklch(90% 0.025 var(--hue));
+    --primary-color-transparent: oklch(70% 0.15 var(--hue) / 15%);
     --text-color: oklch(30% 0 0);
     --text-color-lighten: oklch(50% 0 0);
     --card-color: oklch(100% 0 0);
@@ -17,6 +31,7 @@
 
     --brand-font: "Raleway", "Noto Sans SC", sans-serif;
     --primary-font: "Noto Sans SC", sans-serif;
+    --code-font: "JetBrains Mono", "Fira Code", monospace;
 
     --page-width-lg: 992px;
     --page-width-xl: 1264px;
@@ -24,9 +39,9 @@
     --banner-height: 66vh;
     --index-title-font-size: 5rem;
     --title-font-size: 3rem;
+    /* --banner-height: 55vh; */
     --title-font: var(--brand-font);
     --title-color: oklch(100% 0 0 / 95%);
-    --subtitle-font-size: 1.5rem;
     --subtitle-font: var(--brand-font);
     --subtitle-color: oklch(100% 0 0 / 85%);
 
