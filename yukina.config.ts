@@ -40,7 +40,7 @@ const YukinaConfig: Configuration = {
 
   description: "Demo Site",
 
-  site: "https://yukina-blog.vercel.app",
+  site: "https://nissenhooper.com/",
 
   locale: "en", // set for website language and date format
 
