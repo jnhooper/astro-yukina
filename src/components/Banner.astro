@@ -1,16 +1,16 @@
 ---
-import { Picture } from 'astro:assets';
+import { Picture } from "astro:assets";
 //import { readFileSync } from "node:fs";
 //import { parse } from "yaml";
 import YukinaConfig from "../../yukina.config";
 
-import elmoImg from '../assets/photos/elmo.jpg'
-import catBox from '../assets/photos/catBox.jpg'
-import ferryFun from '../assets/photos/ferryFun.jpg'
-import christmasJump from '../assets/photos/christmasJump.jpg'
-import portoHill from '../assets/photos/portoHill.jpg'
-import glasses from '../assets/photos/glasses.jpg'
-import science from '../assets/photos/science.jpg'
+import elmoImg from "../assets/photos/elmo.jpg";
+import catBox from "../assets/photos/catBox.jpg";
+import ferryFun from "../assets/photos/ferryFun.jpg";
+import christmasJump from "../assets/photos/christmasJump.jpg";
+import portoHill from "../assets/photos/portoHill.jpg";
+import glasses from "../assets/photos/glasses.jpg";
+import science from "../assets/photos/science.jpg";
 
 import { GetCoverURLForUnspecifiedEntry } from "../utils/cover";
 
@@ -26,35 +26,35 @@ const hasTitle = title !== undefined || subTitle !== undefined;
 const hasHeaderImg = bannerImage !== undefined || slug !== undefined;
 
 interface CarouselImg {
-  src: ImageMetadata
-  objectPosition?: string
-  alt: string
+  src: ImageMetadata;
+  objectPosition?: string;
+  alt: string;
 }
-let carouselImgsList = [] as CaouselImg[];
+let carouselImgsList = [] as CarouselImg[];
 if (!hasHeaderImg) {
-  console.log("No header image specified, loading carousel images...");
+  //console.log("No header image specified, loading carousel images...");
   //const carouselImgs = readFileSync("data/carousel_imgs.yaml", "utf-8");
   //carouselImgsList = parse(carouselImgs) as string[];
   carouselImgsList = [
     {
       src: ferryFun,
-      objectPosition: 'center 34%',
-      alt: 'John and family enjoying the ferry to SF'
+      objectPosition: "center 34%",
+      alt: "John and family enjoying the ferry to SF",
     },
     {
       src: elmoImg,
-      objectPosition: 'center center',
-      alt: 'John and daughter playing with puppets'
+      objectPosition: "center center",
+      alt: "John and daughter playing with puppets",
     },
     {
       src: glasses,
-      objectPosition: 'center center',
-      alt: 'John and family making silly faces with sunglasses'
+      objectPosition: "center center",
+      alt: "John and family making silly faces with sunglasses",
     },
     {
       src: science,
-      objectPosition: 'center center',
-      alt: 'John and daughter with lab goggles on'
+      objectPosition: "center center",
+      alt: "John and daughter with lab goggles on",
     },
     //{
     //  src: catBox,
@@ -68,10 +68,8 @@ if (!hasHeaderImg) {
     //  src: portoHill,
     //  objectPosition: 'center center'
     //},
-  ]
-
+  ];
 }
-console.log(carouselImgsList)
 
 // let carouselImgsList = YukinaConfig.banners;
 
@@ -79,28 +77,30 @@ const carouselAnimationTime = `${carouselImgsList.length * 6}s`;
 ---
 
 <div id="banner" class="banner onload-animation-fade-in">
-  <div class="transition-main banner-inner h-full w-full"> 
+  <div class="transition-main banner-inner h-full w-full">
     {
       !hasHeaderImg && (
         <div class="carousel">
           <div class="carousel_imgs">
-        <div style={{
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-          backgroundColor: 'rgb(0, 0, 0)',
-          opacity: 0.529297,
-        }}/>
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                backgroundColor: "rgb(0, 0, 0)",
+                opacity: 0.529297,
+              }}
+            />
             {carouselImgsList.map((img, index) => (
               <Picture
                 alt={img.alt}
-                formats={['avif', 'webp']}
+                formats={["avif", "webp"]}
                 src={img.src}
                 class="item lozad"
                 style={{
                   animationDelay: `${index * 6}s`,
                   objectPosition: img.objectPosition,
-                  filter: 'brightness(0.592)'
+                  filter: "brightness(0.592)",
                 }}
               />
             ))}
@@ -128,10 +128,7 @@ const carouselAnimationTime = `${carouselImgsList.length * 6}s`;
             class:list={[hasTitle ? "title-normal" : "title-index"]}
             class="title"
           >
-            {
-              YukinaConfig.title ||
-            title 
-            }
+            {YukinaConfig.title || title}
           </h1>
           <h2 class="subtitle">{subTitle ?? YukinaConfig.subTitle}</h2>
         </div>
@@ -224,11 +221,10 @@ const carouselAnimationTime = `${carouselImgsList.length * 6}s`;
   .banner {
     @apply relative h-[calc(var(--banner-height)*3/4)] opacity-100 lg:h-[var(--banner-height)];
   }
-  @media(min-width:1024px){
+  @media (min-width: 1024px) {
     .banner {
-      --banner-height: 55vh
+      --banner-height: 55vh;
     }
-
   }
 
   .carousel {
@@ -280,7 +276,6 @@ const carouselAnimationTime = `${carouselImgsList.length * 6}s`;
     @apply text-center text-xl text-[var(--subtitle-color)] drop-shadow-md lg:text-3xl;
     font-family: var(--subtitle-font);
   }
-
 
   .waves {
     @apply absolute -bottom-[1px] h-[10vh] max-h-[9.375rem] min-h-[3.125rem] w-full;

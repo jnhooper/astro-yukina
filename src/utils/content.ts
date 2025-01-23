@@ -150,6 +150,7 @@ export async function GetCategories() {
     //return import.meta.env.PROD ? data.draft !== true : true;
     return true
   });
+  console.log(allBlogPosts)
 
   const categories = new Map<string, Category>();
 
