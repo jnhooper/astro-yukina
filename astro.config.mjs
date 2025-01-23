@@ -5,7 +5,6 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import svelte from "@astrojs/svelte";
 import swup from "@swup/astro";
-import lottie from "astro-integration-lottie";
 
 import rehypeSlug from "rehype-slug";
 import rehypeKatex from "rehype-katex";
@@ -24,7 +23,6 @@ export default defineConfig({
    svg: true,
   },
   integrations: [
-    lottie(),
     tailwind(),
     svelte(),
     icon(),
