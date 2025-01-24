@@ -1,4 +1,5 @@
 ---
+import { Picture } from "astro:assets";
 import { Icon } from "astro-icon/components";
 import YukinaConfig from "../../yukina.config";
 import { i18n } from "../locales/translation";
@@ -7,7 +8,6 @@ import { GetCategories, GetTags } from "../utils/content";
 
 const categories = await GetCategories();
 const tags = await GetTags();
-console.log(categories.keys().map);
 ---
 
 <div class="mx-3 space-y-4">
@@ -15,7 +15,9 @@ console.log(categories.keys().map);
   <div class="rounded-3xl bg-[var(--card-color)] transition-all lg:hidden">
     <div class="flex flex-row md:flex-col md:pt-4">
       <a href="/about" class="relative h-40 w-40 md:hidden">
-        <img
+        <Picture
+          inferSize={!YukinaConfig.avatar}
+          src={YukinaConfig.avatar || YukinaConfig.avatarUrl}
           class="lozad absolute left-0 top-0 h-40 rounded-l-3xl"
           data-src={YukinaConfig.avatarUrl}
           alt="Avatar"
@@ -28,7 +30,9 @@ console.log(categories.keys().map);
       <a
         class="mx-auto hidden h-40 w-40 cursor-pointer rounded-3xl transition-all hover:brightness-75 md:block"
       >
-        <img
+        <Picture
+          inferSize={!YukinaConfig.avatar}
+          src={YukinaConfig.avatar || YukinaConfig.avatarUrl}
           class="lozad h-40 rounded-3xl"
           data-src={YukinaConfig.avatarUrl}
           alt="Avatar"
